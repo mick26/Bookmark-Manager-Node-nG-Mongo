@@ -1,0 +1,109 @@
+
+
+<div class="container" ng-controller="BookmarkCtrl">
+
+    <div class="row">
+        <div class="col-md-3 menu">
+            <h2><span class="glyphicon glyphicon-search"></span> Search</h2>
+
+            <!-- Search Form -->
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input autofocus type="text" class="form-control" id="inputSearch" placeholder="Enter words and/or tags" ng-model="search">
+                    </div>
+                </div>
+            </form> <!-- @END form search -->
+
+            <h2><span class="glyphicon glyphicon-floppy-save"></span> Add Bookmark</h2>
+
+            <form class="form-horizontal" role="form">
+                
+                <!-- Bookmark URL -->
+                <div class="form-group">
+                    <label for="inputBookmarkLink" class="col-sm-2 control-label">Link</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputBookmarkLink" placeholder="Link" ng-model="bookmark.link">
+                    </div>
+                </div>
+
+                <!-- Attach Tag(s) to Bookmark -->            
+                <div class="form-group">
+                    <label for="inputBookmarkTags" class="col-sm-2 control-label">Tags</label>
+                    <div class="col-sm-10">
+
+                        <select id="inputBookmarkTags" multiple class="form-control" ng-model="bookmark.tags" 
+                                  ng-options = "tag.name for tag in tags">  
+                            <option value="">Add Tag(s) to Link..</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" ng-click="addBookmark(bookmark)">Save</button>
+                        <button type="submit" class="btn btn-warning" ng-click="clearBookmarkForm(bookmark)">Clear</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <h2><span class="glyphicon glyphicon-floppy-save"></span> Add Tag</h2>
+
+
+            <form class="form-horizontal" role="form">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputTagName">Tag</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputTagName" placeholder="Tag" ng-model="tag.name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputTagColor">Color</label>
+                    <div class="col-sm-10">
+                        <input colorpicker type="text" class="form-control col-sm-2" id="inputTagColor" placeholder="#04aa05" ng-model="tag.color">                            
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" ng-click="addTag(tag)">Save</button>
+                        <button type="submit" class="btn btn-warning" ng-click="clearTagForm(tag)">Clear</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <ul class="list-inline">
+                <li ng-repeat="tag in tags track by $index">  <!-- ADDED -->
+                    <span class="label" style="background-color:{{tag.color}};">{{tag.name}} <span class="glyphicon glyphicon-remove" ng-click="deleteTag(tag)"></span> </span>                    
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-8">
+
+            <h1><span class="glyphicon glyphicon-list"></span> Bookmarks</h1>
+
+
+            <div class="row">
+                <div class="col-md-12 bookmark-item" ng-repeat="bookmark in bookmarks | filter:search"> <!-- ADDED*** -->
+                    <h4>
+                        <span class="glyphicon glyphicon-pushpin"></span>
+                        <a href="{{bookmark.link}}" target="_blank">{{bookmark.link}}</a>
+                        <span class="glyphicon glyphicon-remove" ng-click="deleteBookmark(bookmark)"></span>
+                    </h4>
+
+                    <ul class="list-inline bookmark">
+                        <li ng-repeat="tag in bookmark.tags">
+                            <display-tag tag="tag" bookmark-id="bookmark.id" delete-tag="deleteTagFromBookmark(bookmark._id, tag)"></display-tag>
+                        </li>
+                    </ul>
+
+                </div>
+            </div> <!-- @END .row -->
+        </div> <!-- @END .col-md-8 -->
+    </div> <!-- @END .row -->
+</div> <!-- @END .container -->

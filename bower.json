@@ -1,0 +1,24 @@
+{
+  "name": "Manage Bookmarks",
+  "version": "0.0.1",
+  "authors": [
+    "Michael Cullen"
+  ],
+  "description": "Managing Bookmarks",
+  "ignore": [
+    "**/*.txt",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3",
+    "angular": "*",
+    "angular-route": "*",
+    "angular-resource": "*",
+    "angular-bootstrap-colorpicker": "~3.0.7"
+  },
+  "license": "MIT",
+  "private": true
+}
