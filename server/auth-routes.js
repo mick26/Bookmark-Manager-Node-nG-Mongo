@@ -4,6 +4,8 @@ External Modules/Packages Required
 //To sign i.e. create the JWT
 var jwt = require('jsonwebtoken');  		//https://npmjs.org/package/node-jsonwebtoken
 //Express middleware to validate a JSON Web token
+//express-jwt which is a simple middleware that parses the Authorization header and validates the JWT using jsonwebtoken
+//https://groups.google.com/forum/#!topic/nodejs/WrEZ4xTm7wI
 var expressJwt = require('express-jwt'); 	//https://npmjs.org/package/express-jwt
 										
 //var db = require('./models/mongooseUserModel');	//Mongoose Model
@@ -53,13 +55,14 @@ module.exports = function(app)
 	  	//if is invalid, return 401
 	  	var username = req.body.username || '';
 		var password = req.body.password || '';
+
 		
 		if (username == '' || password == '') { 
 			return res.send(401); 
 		}
 
-//		db.UserModel.findOne({username: req.body.username}, function (err, user) {
-		UserModel.findOne({username: req.body.username}, function (err, user) {
+
+		UserModel.findOne({username: req.body.username},function (err, user) {
 			
 			if (err) {
 				console.log(err);
@@ -77,6 +80,7 @@ module.exports = function(app)
 	            }
 
 	           	var userProfile = {
+	           		user_id : user._id,
 					username: user.username,
 					admin: user.is_admin,
 					created: user.created,

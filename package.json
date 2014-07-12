@@ -4,18 +4,17 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "4.2.0",
+    "express": "~4.2.0",
     "json": "~8.0.0",
     "urlencode": "~0.2.0",
     "morgan": "~1.1.1",
     "cookie-parser": "~1.1.0",
-    "method-override": "~1.0.1",
-    "mongoose": "~3.8.10",
+    "method-override": "~1.0.2",
+    "mongoose": "~3.8.12",
     "bcryptjs": "~0.7.12",
-    "passport": "~0.2.0",
-    "passport-local": "~1.0.0",
     "jsonwebtoken": "~0.4.0",
     "express-jwt": "~0.2.1",
-    "colors": "~0.6.2"
+    "colors": "~0.6.2",
+    "lodash": "~2.4.1"
   }
 }

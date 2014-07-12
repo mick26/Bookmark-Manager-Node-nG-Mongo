@@ -25,32 +25,32 @@ http://mongoosejs.com/docs/guide.html
 *********************************************************************/
 var Schema = mongoose.Schema;			//Mongoose Schema
 
-
-/* ========================================================== 
-Import the tagSchema
-It's the Mongoose Schema for our 'tags' Sub Document
-============================================================ */
-var bookmarkSchema = require('./mongooseBookmarkModel').bookmarkSchema;
-
-
-
 /* ========================================================== 
 CREATE A MONGOOSE SCHEMA OBJECT
 Ref. http://mongoosejs.com/docs/schematypes.html
 ============================================================ */
+
 var userSchema = new Schema( {
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true},
   is_admin: { type: Boolean, required: true },
   created: { type: Date, default: Date.now },
-  bookmarks: [bookmarkSchema]
+  tags:[ {name : String, color : String } ],
+  bookmarks:[{link : String, tags:[ {name : String, color : String } ]}]
 } );
+
+/*=================================================================
+http://mongoosejs.com/docs/guide.html
+When your application starts up, Mongoose automatically calls ensureIndex for each 
+defined index in your schema. Index creation can cause a performance impact. 
+Disable the behavior by setting the autoIndex option of your schema to false.
+===================================================================*/
+userSchema.set('autoIndex', false);
 
 module.exports = userSchema; 			//Export the userSchema
 
 //To add additional keys later, use the Schema#add method
-
 
 /****************************************************************************
 Bcryptjs
@@ -90,7 +90,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 
-
 /********************************************************************
 In order to use Schema have to convert it to a Model
 Create Mongoose Model - mongoose.model(modelName, schema)
@@ -98,14 +97,13 @@ Export Mongoose Model
 *********************************************************************/
 UserModel = mongoose.model('User', userSchema);
 
-
-
-
 /* ========================================================== 
 CREATE A MONGOOSE MODEL - mongoose.model(modelName, schema)
 ============================================================ */
-module.exports = mongoose.model('UserModel', userSchema );
 
+var UserModel = mongoose.model('UserModel', userSchema );
+
+module.exports = UserModel;      //Export the userSchema
 
 /* ========================================================== 
 Open Mongoose Connection to DB

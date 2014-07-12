@@ -1,11 +1,6 @@
 # Bookmark Manager
 
 
-A WORK IN PROGRESS!!!
-WHILE THIS APP IS WORKING AND MAY BE TRIED OUT IT IS NOT COMPLETE!!!!
-
-
-
 ## Description
 
 The client code has been taken from [Kevin Delemme](https://github.com/kdelemme/angularjs-bookmark-manager)
@@ -21,6 +16,21 @@ I made the following changes:
 * Added user authentication using JSON Web Tokens
 * Added connection to MongoDB
 * Added RESTful routes for client to interact with server via $http service (AJAX calls using JSON)
+
+
+The program allows you to register and log on to the App using the username and password you selected.
+The password is encrypted and stored will all the other date in a Mongo database.
+You can create Tags and assign them to bookmarks you create under your account. 
+No  other user has access to bookmarks/tags you create.
+
+
+The JWT is sent with most server requests to the server, in some cases the JWT is sent to protect a secure route.
+In other cases the JWT was sent because I extract the userId from the token payload for use by the server.
+The JWT is set to expire after one hour (you can change this) - I have set no warning messages - 
+requests to the server will just not work and you will need to log on again.
+
+I removed the Mongoose SubDocuments I had created previously. 
+The $pull command would not allow me to delete from the SubDoc arrays.
 
 
 

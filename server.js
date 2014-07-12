@@ -24,7 +24,6 @@ var colours = require('colors');
 Internal App Modules/Packages Required
 ============================================================ */
 var database = require('./server/config/database'); 	//database config - i.e. Local/remote MongoDB URL
-
 var routes = require('./server/routes.js');				//Exchange routes & mongoose interaction with DB
 var authRoutes = require('./server/auth-routes.js');
 
@@ -36,7 +35,6 @@ var app = express();
 /* ========================================================== 
 Port the server will listen on
 ============================================================ */
-//var port = process.env.PORT || 3080; 					//set the port
 app.set('port', process.env.PORT || 3080); 					//set the port
 
 
@@ -48,7 +46,6 @@ important when altering passwords.
 /* ========================================================== 
 Connect to mongoDB database - DB URL specified in database.js
 ============================================================ */
-//mongoose.connect(database.url, database.mongoOptions, function (err, res) {
 
 mongoose.connect(database.url, {safe:true}, function (err, res) {
   if (err) { 
@@ -58,8 +55,6 @@ mongoose.connect(database.url, {safe:true}, function (err, res) {
   }
 });
 	
-
-
 /* ========================================================== 
 serve the static index.html from the public folder
 ============================================================ */
@@ -84,7 +79,6 @@ authRoutes(app);
 Create HTTP Server using Express
 ============================================================ */
 var server = http.createServer(app);
-
 
 /* ========================================================== 
 Start HTTP Server bind to port and Listen for connections

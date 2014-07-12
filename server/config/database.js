@@ -1,11 +1,22 @@
 
+/*================================================================
+To connect to MongoLab DB
+Insert the details here:
+
+var username = "";
+var password = "";
+var address = "@12345678.mongolab.com:55555/bookmarks";
+=================================================================*/
+
 
 module.exports = {
 
-	// the database url to connect
-	// url : 'mongodb://node:node@mongo.onmodulus.net:27017/hjhj
+	/********************************************************************
+	Specify MongoDB - database url
+	*********************************************************************/
+	//Mongo DB URI not using MongoLab API Key but username and password instead
+	//	url : 'mongodb://' + username + ':' + password + address
 
-	//Local MongoDB
-	//url : 'mongodb://localhost/test'	
-	url : 'mongodb://localhost/bookmarkMgr'
+	// *OR* If Local DB
+	 url : 'mongodb://localhost/bookmarkMgr'
 }
