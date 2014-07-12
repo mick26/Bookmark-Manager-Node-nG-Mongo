@@ -19,7 +19,7 @@ I made the following changes:
 
 
 The program allows you to register and log on to the App using the username and password you selected.
-The password is encrypted and stored will all the other date in a Mongo database.
+The password is encrypted and stored will all the other data in a Mongo database.
 You can create Tags and assign them to bookmarks you create under your account. 
 No  other user has access to bookmarks/tags you create.
 
