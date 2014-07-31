@@ -95,7 +95,7 @@ In order to use Schema have to convert it to a Model
 Create Mongoose Model - mongoose.model(modelName, schema)
 Export Mongoose Model
 *********************************************************************/
-UserModel = mongoose.model('User', userSchema);
+//UserModel = mongoose.model('User', userSchema);
 
 /* ========================================================== 
 CREATE A MONGOOSE MODEL - mongoose.model(modelName, schema)

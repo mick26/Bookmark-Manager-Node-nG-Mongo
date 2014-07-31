@@ -13,6 +13,7 @@ Changes I made are:
 3. inclusion of a html5 <select with ng-options and multiple to enable 
 tags to be added to Bookmarks easily.
 
+
 http://lifehacker.com/5540019/five-best-bookmark-management-tools
 ============================================================ -->
 
@@ -58,28 +59,11 @@ http://lifehacker.com/5540019/five-best-bookmark-management-tools
                     <li ng-show="auth.isLogged"><a href="#/about">About</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">        
-                    <li ng-if="auth.isLogged" ng-model="welcome"><a href="#/logout">{{welcome}}! Logout</a></li>
+                    <li ng-if="auth.isLogged" ng-model="welcome"><a href="#/logout">{{welcome}} Logout</a></li>
                     <li ng-if="!auth.isLogged"><a href="#/login">Login</a></li>
 
                 </ul>             
-
- <!--               
-                    <li><a href="#/">Bookmarks</a></li>
-                    <li><a href="#/about">About</a></li>
-                </ul>
-
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li ng-if="user.isLogged"><a href="#/logout">Welcome, {{user.user}}! Logout</a></li>
-                    <li ng-if="!user.isLogged"><a href="#/login">Login</a></li>
-                    <li ng-if="!user.isLogged"><a href="#/register">Register</a></li>
-                </ul>
--->
-
-           <!--      <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Hello !</a></li>
-
-                </ul>   -->                  
+                
             </div>
 
         </div> <!-- @END/ .container -->    
