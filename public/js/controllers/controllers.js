@@ -8,7 +8,7 @@ angular.module('bookmarkApp.Controllers', [])
 /*================================================================
 Controller
 =================================================================*/
-.controller('BookmarkCtrl', ['$scope', '$http', '$location', function BookmarkCtrl($scope, $http, $location) {
+.controller('BookmarkCtrl', function BookmarkCtrl($scope, $http, $location, $window, $rootScope) {
 
 		$scope.bookmarks = {};
 		$scope.tags = {};
@@ -21,14 +21,24 @@ Controller
 		//success - callback fn
 		.success(function(data, status, headers, config) {
 			$scope.bookmarks = data;
-			//console.info("Status: " + status);					//TEST
-			//console.info("Config: " + JSON.stringify(config));	//TEST
+
+	        var encodedProfile =$window.sessionStorage.token.split('.')[1];
+	        var profile = JSON.parse(url_base64_decode(encodedProfile));
+	        //console.log("***profile = " + JSON.stringify(profile));            //TEST
+	        $scope.error = '';
+	        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);   
 		})
 
 		//error - callback fn
 		.error(function(data, status, headers, config) {
 			console.log('Error getting bookmarks: ' + data);
+			
+			$location.url('/login');
+			//Erase JWT token
+			delete $window.sessionStorage.token;
+			AuthenticationService.isLogged = false;    // Logged Out
 		});
+
 
 
 		/* ========================================================== 
@@ -61,8 +71,7 @@ Controller
 		/* ========================================================== 
 		Add bookmark - bookmark.tags, bookmark.link
 		============================================================ */			
-		$scope.addBookmark = function(bookmark) 
-		{
+		$scope.addBookmark = function(bookmark) {
 			//console.info("bookmark>>= "+ JSON.stringify(bookmark) ); //TEST
 			$http.post('/bookmarks', $scope.bookmark)
 
@@ -73,7 +82,7 @@ Controller
 			})
 
 			//error - callback
-			.error(function(data) {
+			.error(function(data, status, headers, config) {
 				console.info("Error Posting Bookmark" + data);
 			})
 		};
@@ -95,7 +104,7 @@ Controller
 				})
 
 				//error
-				.error(function(data) {
+				.error(function(data, status, headers, config) {
 					console.log('Error deleting: ' + data);
 				});
 		};
@@ -104,8 +113,7 @@ Controller
 		/* ========================================================== 
 		ADD tag - tag.name,	tag.color
 		============================================================ */		
-		$scope.addTag = function(tag) 
-		{
+		$scope.addTag = function(tag) {
 			$http.post('/tags', $scope.tag)
 
 			//success - callback
@@ -115,10 +123,9 @@ Controller
 			})
 
 			//error - callback
-			.error(function(data) {
+			.error(function(data, status, headers, config) {
 				console.info("Error Posting Tag" + data);
 			})
-
 		};
 
 
@@ -136,7 +143,7 @@ Controller
 			})
 
 			//error - callback
-			.error(function(data) {
+			.error(function(data, status, headers, config) {
 				console.info("Error Deleting Tag" + data);
 			});
 
@@ -158,11 +165,10 @@ Controller
 				})
 
 				//error - callback
-				.error(function(data) {
+				.error(function(data, status, headers, config) {
 					console.info("Error with PUT" + data);
 				});
-
-			};
+		};
 
 		/* ========================================================== 
 		Clear Bookmark Form
@@ -178,10 +184,23 @@ Controller
 		$scope.clearTagForm = function(input) {
 			input.name = "";
 			input.color = "";
-		}
-	}
-])
+		};
+})
 
-.controller('AboutCtrl', function($scope) {
+
+
+
+.controller('AboutCtrl', function($scope, $window, $rootScope) {
 		$scope.message = 'Look! I am an about page.';
+
+		//If JWT exists in session storage i.e. user logged in
+		//get username from JWT
+		if($window.sessionStorage.token) {
+	        var encodedProfile =$window.sessionStorage.token.split('.')[1];
+	        var profile = JSON.parse(url_base64_decode(encodedProfile));
+	        //console.log("***profile = " + JSON.stringify(profile));            //TEST
+	        $scope.error = '';
+	        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);  
+	    } 
+
 });

@@ -69,8 +69,8 @@ app.use(express.static(__dirname + '/public'));
 Use Middleware
 ============================================================ */
 app.use(logger('dev')); 	//log every request to the console in dev
-app.use(bodyParser()); 		//Get info from $HTTP POST/PUT packets - needed for req.body
-
+// parse application/json
+app.use(bodyParser.json());	//needed for req.body
 
 /* ========================================================== 
 ROUTES - using Express

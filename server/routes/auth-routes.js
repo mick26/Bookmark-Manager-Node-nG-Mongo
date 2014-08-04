@@ -1,5 +1,6 @@
 /* ==========================================================
 ROUTES - dealing with the user
+ROUTE Definitions
 
 Ref.
 http://webapplog.com/intro-to-express-js-parameters-error-handling-and-other-middleware/

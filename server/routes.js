@@ -1,14 +1,14 @@
 /*================================================================
+Server side Routing using Express
+ROUTE Declarations
+
 Ref.
 Mongoose v3.8.12: https://github.com/LearnBoost/mongoose/wiki/3.8-Release-Notes
 
 Mongoose Sub Doc's
 https://coderwall.com/p/6v5rcw
 http://stackoverflow.com/questions/9305987/nodejs-mongoose-which-approach-is-preferable-to-create-a-document
-
 https://npmjs.org/package/express-jwt
-
-Server side Routing using Express / Mongoose / MongoDB
 =================================================================*/
 
 var mongoose = require('mongoose');
@@ -29,7 +29,7 @@ JSON Web Token Secret String
 var secret = require('./config/jwtSecret');
 
 /* ========================================================== 
-ROUTES
+ROUTES - files containing route definitions
 ============================================================ */
 var authRoutes = require('./routes/auth-routes.js');
 var bookRoutes = require('./routes/book-routes.js');

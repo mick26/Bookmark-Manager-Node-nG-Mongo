@@ -93,8 +93,9 @@ angular.module('bookmarkApp.userControllers', [])
 
 
  /**********************************************************************
-  * Admin controller
+  * Admin controller - ROUTE NOT USED
   **********************************************************************/
+  /*
   .controller('AdminCtrl', function($scope, $http, $location, AuthenticationService, $window, $rootScope) {
 
     $http.get('/admin')
@@ -106,9 +107,9 @@ angular.module('bookmarkApp.userControllers', [])
         var encodedProfile =$window.sessionStorage.token.split('.')[1];
         var profile = JSON.parse(url_base64_decode(encodedProfile));
     
-        //console.log("profile = " + JSON.stringify(profile));            //TEST
+        console.log("***profile = " + JSON.stringify(profile));            //TEST
         $scope.error = '';
-        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.firstname);   
+        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);   
     })
     
     //error
@@ -120,7 +121,7 @@ angular.module('bookmarkApp.userControllers', [])
       AuthenticationService.isLogged = false;    // Logged Out
     });
 })
-
+*/
 
 /**********************************************************************
  * Logout controller

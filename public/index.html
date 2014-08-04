@@ -54,9 +54,8 @@ http://lifehacker.com/5540019/five-best-bookmark-management-tools
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
 
-                    <li ng-show="auth.isLogged"><a href="#/admin">Admin</a></li>
                     <li ng-show="auth.isLogged"><a href="#/bookmarks">Bookmarks</a></li>
-                    <li ng-show="auth.isLogged"><a href="#/about">About</a></li>
+                    <li><a href="#/about">About</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">        
                     <li ng-if="auth.isLogged" ng-model="welcome"><a href="#/logout">{{welcome}} Logout</a></li>
