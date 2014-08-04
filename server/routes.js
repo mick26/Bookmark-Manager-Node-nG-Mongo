@@ -45,7 +45,7 @@ module.exports = function(app)
 	app.post('/register', authRoutes.register);
 	app.post('/login', authRoutes.login);
 	app.post('/logout', authRoutes.logout);
-	app.get('/admin', authRoutes.getAdmin);
+	//app.get('/admin', authRoutes.getAdmin);
 
 	/* ========================================================== 
 	Bookmark Routes

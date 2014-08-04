@@ -78,7 +78,7 @@ module.exports = {
 						res.status(500).send("Internal Server Error: problem saving user to DB");
 					}
 					else {
-						return res.send(200);
+						return res.status(200).send("New user saved to DB ok");
 					}
 				});	
 			}
@@ -100,9 +100,9 @@ module.exports = {
 	  	var username = req.body.username || '';
 		var password = req.body.password || '';
 
-		
+		//Angular validation  check to ensure required fields are populated so this should not be called
 		if (username == '' || password == '') { 
-			return res.send(401); 
+			return res.status(401).send("Either username of password fields are empty"); 
 		}
 
 
@@ -110,17 +110,17 @@ module.exports = {
 			
 			if (err) {
 				console.log(err);
-				return res.send(401);
+				return res.status(401).send("Error when trying to find user in DB");
 			}
 
 			if (user == undefined) {
-				return res.send(401);
+				return res.status(401).send("user is undefined");
 			}
 			
 			user.comparePassword(req.body.password, function(err, isMatch) {
 				if (!isMatch) {					
 					console.log("Attempt failed to login with " + user.username);
-					return res.send(401);
+					return res.status(401).send("Password given does not match password in DB");
 	            }
 
 	           	var userProfile = {
@@ -154,24 +154,25 @@ module.exports = {
 	//app.post('/logout', function(req, res) {
 
 	logout : function(req, res) {
-		res.send(200);
+		res.status(200).send("Logged out ok");
 	},
 	
 
-
-
-
 	/*================================================================
+	NOT USED!!!!
+
 	$http GET /admin - secured by JWT 
 	JWT is TX by client in HTTP packet header, JWT is checked
 	Express will return 401 and stop the route if token is not valid
 	=================================================================*/
 	//app.get('/admin', expressJwt({secret:secret.JWTsecret}) ,function (req, res) 	
+/*
 	getAdmin : function (req, res) {
 	  console.log('user ' + req.username + ' is calling /admin');
 	  console.info("req token=" +JSON.stringify(req.headers));
 	  res.send(req.username);
 	}
+*/
 
 
 }; /* @END/ module */
