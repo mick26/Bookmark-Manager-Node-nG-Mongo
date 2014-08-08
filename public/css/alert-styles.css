@@ -38,7 +38,7 @@
 
 /* add colors to error class */
 .alert-error {
-    background-color: #da0000;
+    background-color: #e83425;  /* orange */
     border: 1px solid #fbeed5;
 }
 
