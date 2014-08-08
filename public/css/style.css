@@ -22,3 +22,60 @@ ul.bookmark {
 	margin-left: 10px;
 	border-radius: 5px;
 }
+
+/* Form Validation */
+/* Inputbox styling
+ * Apply styling to form with class="fmRegister" 
+ * input box value has been changed i.e. (dirty) 
+ * inputbox content is valid i.e. (valid) 
+ */
+.fmRegister input.ng-dirty.ng-valid {
+	border-left:3px solid #3d8b3d;
+	/*border-right:3px solid #3d8b3d;*/
+}
+
+.fmRegister input.ng-dirty.ng-invalid{
+	border-left:3px solid #cc2511;
+	/*border-right:3px solid #cc2511;*/
+}
+
+
+.fmRegister input.ng-pristine.ng-valid{
+	border-left:3px solid #3d8b3d;
+	/*border-right:3px solid #cc2511;*/
+}
+
+/* */
+.fmRegister input.ng-pristine.ng-invalid{
+	border-left:3px solid #cc2511;
+	/*border-right:3px solid #cc2511;*/
+}
+
+/* Form Validation */
+/* Inputbox styling
+ * Apply styling to form with class="fmLogin" 
+ * input box value has been changed i.e. (dirty) 
+ * inputbox content is valid i.e. (valid) 
+ */
+.fmLogin input.ng-dirty.ng-valid {
+	border-left:3px solid #3d8b3d;
+	/*border-right:3px solid #3d8b3d;*/
+}
+
+.fmLogin input.ng-dirty.ng-invalid{
+	border-left:3px solid #cc2511;
+	/*border-right:3px solid #cc2511;*/
+}
+
+.fmLogin input.ng-pristine.ng-valid{
+	border-left:3px solid #3d8b3d;
+	/*border-right:3px solid #cc2511;*/
+}
+
+/* */
+.fmLogin input.ng-pristine.ng-invalid{
+	border-left:3px solid #cc2511;
+	/*border-right:3px solid #cc2511;*/
+}
+
+

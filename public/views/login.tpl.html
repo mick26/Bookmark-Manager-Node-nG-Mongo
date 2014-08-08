@@ -10,7 +10,7 @@
     <span ng-show="auth.isLogged">{{welcome}}</span>
 
     <!-- Form to input username and password  -->
-    <form name="fmLogin" novalidate ng-show="!AuthenticationService.isLogged" ng-submit="login()">
+    <form class="fmLogin" name="fmLogin" novalidate ng-show="!AuthenticationService.isLogged" ng-submit="login()">
 
       <div class="form-group">
         <label>Username</label>

@@ -4,7 +4,8 @@
 Module - main module
 =================================================================*/
 
-angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkApp.Directives', 'colorpicker.module', 'bookmarkApp.userControllers', 'bookmarkApp.userServices'])
+angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkApp.Directives', 'colorpicker.module', 
+  'bookmarkApp.userControllers', 'bookmarkApp.userServices', 'angular-flash.flash-alert-directive', 'angular-flash.service'])
 
 //.config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvider) {
 
@@ -22,7 +23,13 @@ angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkAp
   Define all the Routes
   ================================================ */
   $routeProvider
-    
+
+    .when('/', {
+      templateUrl: 'views/home.tpl.html',
+      controller  : 'HomeCtrl',
+      access: { requiredLogin: false }
+    })
+
     .when('/about', {
       templateUrl: 'views/about.tpl.html',
       controller  : 'AboutCtrl',
@@ -49,14 +56,13 @@ angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkAp
     })
 
     .when('/logout', {
-      templateUrl: 'views/login.tpl.html',
+      templateUrl: 'views/home.tpl.html',
       controller: 'LogoutCtrl',
       access: { requiredLogin: true }
     })
 
     .otherwise( {
-      redirectTo: '/login',
-      access: { requiredLogin: true }
+      redirectTo: '/'
     })
 
 })

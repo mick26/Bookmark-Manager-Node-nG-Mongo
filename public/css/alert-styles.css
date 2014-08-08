@@ -1,0 +1,48 @@
+/* Remove colors and add transition property */
+.alert-flash {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border: 1px solid transparent;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    /* change transition property to all */
+    -webkit-transition-property: all;
+    transition-property: all;
+}
+
+.alert-flash h4 {
+    margin: 0;
+}
+
+.alert-flash .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    line-height: 20px;
+}
+
+/* add warning colors to warn class */
+.alert-warn {
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+}
+
+.alert-warn,
+.alert-warn h4 {
+    color: #c09853;
+}
+
+
+/* add colors to error class */
+.alert-error {
+    background-color: #da0000;
+    border: 1px solid #fbeed5;
+}
+
+
+
+
+

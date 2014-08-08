@@ -17,7 +17,8 @@
     "angular": "*",
     "angular-route": "*",
     "angular-resource": "*",
-    "angular-bootstrap-colorpicker": "~3.0.7"
+    "angular-bootstrap-colorpicker": "~3.0.7",
+    "angular-flash": "~0.1.13"
   },
   "license": "MIT",
   "private": true

@@ -12,14 +12,38 @@ angular.module('bookmarkApp.userControllers', [])
   /**********************************************************************
    Register controller
    **********************************************************************/
-  .controller('RegisterCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope) {
+  .controller('RegisterCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash) {
 
-    $scope.error = '';
+   // $scope.error = '';
+
+    //for flash messages
+    $scope.all = function () {
+        $scope.info();
+        $scope.warn();
+        $scope.success();
+        $scope.error();
+    };
 
     $scope.register = function register(username, password, passwordConfirm) {
 
         if (AuthenticationService.isLogged) {
-          console.info("Logged in already!!!!"); //TEST
+          //console.info("Logged in already!!!!"); //TEST
+
+          //Flash Messages
+          $scope.info = function () {
+            flash.info = 'You are logged on already!!';
+          };
+          $scope.warn = function () {
+            flash.warn = '';
+          };
+          $scope.success = function () {
+            flash.success = '';
+          };
+          $scope.error = function () {
+            flash.error = '';
+          };
+          $scope.all();
+
           $location.path("/admin");
         }
         else {
@@ -27,6 +51,22 @@ angular.module('bookmarkApp.userControllers', [])
 
           $http.post('/register', $scope.user) 
             .success(function(data, status, headers, config)  {
+
+                //Flash Messages
+                $scope.info = function () {
+                  flash.info = '';
+                };
+                $scope.warn = function () {
+                  flash.warn = '';
+                };
+                $scope.success = function () {
+                  flash.success = 'You are now Registered and can logon!';
+                };
+                $scope.error = function () {
+                  flash.error = '';
+                };
+                $scope.all();
+
                 $location.path("/login");
             })
 
@@ -34,12 +74,29 @@ angular.module('bookmarkApp.userControllers', [])
                 console.log("HTTP status= "+status);
                 console.log("HTTP Data= "+JSON.stringify(data));
 
+                //Flash Messages
+                $scope.info = function () {
+                  flash.info = '';
+                };
+                $scope.warn = function () {
+                  flash.warn = '';
+                };
+                $scope.success = function () {
+                  flash.success = '';
+                };
+
                 if(status==409) {
-                  $scope.error = 'Duplicate username: Please select a different username';
+                  $scope.error = function () {
+                    flash.error = 'Duplicate username: Please select a different username';
+                  };
+                  $scope.all();
                 }
 
                 if(status==400) {
-                  $scope.error = 'ERROR: Password Confirmation does not match Password';
+                  $scope.error = function () {
+                    flash.error = 'Password Confirmation does not match Password';
+                  };
+                  $scope.all();
                 }
             });
         }
@@ -51,11 +108,19 @@ angular.module('bookmarkApp.userControllers', [])
 /**********************************************************************
  * Login controller
  **********************************************************************/
-.controller('LoginCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope) {
+.controller('LoginCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash) {
 
   $scope.error = '';
 
   $scope.login = function () {
+
+    //for Flash messages
+    $scope.all = function () {
+        $scope.info();
+        $scope.warn();
+        $scope.success();
+        $scope.error();
+    };
 
     $http.post('/login', $scope.user)      
       //success
@@ -72,20 +137,51 @@ angular.module('bookmarkApp.userControllers', [])
     		//console.log("user_id = " + JSON.stringify(profile.user_id));  //TEST
         //console.log("Email = " + JSON.stringify(profile.email));		  //TEST
         //console.log("Username = " + JSON.stringify(profile.username));//TEST
-    		$scope.error = '';
+
+
+        //Flash Messages
+        $scope.info = function () {
+          flash.info = '';
+        };
+        $scope.warn = function () {
+          flash.warn = '';
+        };
+        $scope.success = function () {
+          flash.success = 'You are now logged on!';
+        };
+        $scope.error = function () {
+          flash.error = '';
+        };
+        $scope.all();
+
         $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);		
+        $location.url('/bookmarks');
     })
       
       //error
       .error(function (data, status, headers, config) {
-    		console.log("post /login ERROR");
-       
+    		
   	 	  //Erase JWT token if the user fails to log in
         delete $window.sessionStorage.token;        
   		  AuthenticationService.isLogged = false;	//NOT Logged In **
  
   		  //Handle login errors here
-        $scope.error = 'Error: Invalid user or password';
+        //Flash Messages
+        $scope.info = function () {
+          flash.info = '';
+        };
+        $scope.warn = function () {
+          flash.warn = '';
+        };
+        $scope.success = function () {
+          flash.success = '';
+        };
+        $scope.error = function () {
+          flash.error = 'Invalid username or password!';
+        };
+        $scope.all();
+
+
         $scope.welcome = 'Invalid User';
       });
   }  
@@ -126,11 +222,18 @@ angular.module('bookmarkApp.userControllers', [])
 /**********************************************************************
  * Logout controller
  **********************************************************************/
-.controller('LogoutCtrl', function ($scope, $http, $window, $location, AuthenticationService, $rootScope) {
-    $scope.error = '';
-	  console.log("In LogoutCtrl **");
+.controller('LogoutCtrl', function ($scope, $http, $window, $location, AuthenticationService, $rootScope, flash) {
+
+      //for Flash messages
+    $scope.all = function () {
+        $scope.info();
+        $scope.warn();
+        $scope.success();
+        $scope.error();
+    };
 
 		$http.post('/logout') 
+
 		//success
 		.success(function (data, status, headers, config) {
 			AuthenticationService.isLogged = false;		// Logged In **
@@ -138,13 +241,42 @@ angular.module('bookmarkApp.userControllers', [])
 			//Erase JWT token if the user fails to log in
 			delete $window.sessionStorage.token; 
 			//console.log("/logout SUCCESS");
-      $location.url('/login');
+
+      //Flash Messages
+      $scope.info = function () {
+        flash.info = '';
+      };
+      $scope.warn = function () {
+        flash.warn = '';
+      };
+      $scope.success = function () {
+        flash.success = 'You have been logged out';
+      };
+      $scope.error = function () {
+        flash.error = '';
+      };
+      $scope.all();
+
+      $location.url('/');
 		})
     
 		//error
 		.error(function (data, status, headers, config) {
-			console.log("/logout ERROR");
-			alert(data);
+			//Flash Messages
+      $scope.info = function () {
+        flash.info = '';
+      };
+      $scope.warn = function () {
+        flash.warn = '';
+      };
+      $scope.success = function () {
+        flash.success = '';
+      };
+      $scope.error = function () {
+        flash.error = 'Problem logging out';
+      };
+      $scope.all();
+			//alert(data);
 		});
 });
 
