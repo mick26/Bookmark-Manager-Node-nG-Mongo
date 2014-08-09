@@ -14,9 +14,7 @@ angular.module('bookmarkApp.userControllers', [])
    **********************************************************************/
   .controller('RegisterCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash) {
 
-   // $scope.error = '';
-
-    //for flash messages
+    //for angular-flash messages
     $scope.all = function () {
         $scope.info();
         $scope.warn();
@@ -27,8 +25,7 @@ angular.module('bookmarkApp.userControllers', [])
     $scope.register = function register(username, password, passwordConfirm) {
 
         if (AuthenticationService.isLogged) {
-          //console.info("Logged in already!!!!"); //TEST
-
+          
           //Flash Messages
           $scope.info = function () {
             flash.info = 'You are logged on already!!';
@@ -66,13 +63,11 @@ angular.module('bookmarkApp.userControllers', [])
                   flash.error = '';
                 };
                 $scope.all();
-
+                
                 $location.path("/login");
             })
 
             .error(function(data, status, headers, config) {
-                console.log("HTTP status= "+status);
-                console.log("HTTP Data= "+JSON.stringify(data));
 
                 //Flash Messages
                 $scope.info = function () {
@@ -100,7 +95,18 @@ angular.module('bookmarkApp.userControllers', [])
                 }
             });
         }
+    };
+
+    //If JWT exists in session storage i.e. user logged in
+    //get username from JWT
+   
+    if($window.sessionStorage.token) {
+        var encodedProfile =$window.sessionStorage.token.split('.')[1];
+        var profile = JSON.parse(url_base64_decode(encodedProfile));
+        //console.log("***profile = " + JSON.stringify(profile));            //TEST
+        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);  
     }
+
   })
 
 
@@ -110,36 +116,33 @@ angular.module('bookmarkApp.userControllers', [])
  **********************************************************************/
 .controller('LoginCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash) {
 
-  $scope.error = '';
+  //for Flash messages
+  $scope.all = function () {
+      $scope.info();
+      $scope.warn();
+      $scope.success();
+      $scope.error();
+  };
+
 
   $scope.login = function () {
-
-    //for Flash messages
-    $scope.all = function () {
-        $scope.info();
-        $scope.warn();
-        $scope.success();
-        $scope.error();
-    };
 
     $http.post('/login', $scope.user)      
       //success
     .success(function (data, status, headers, config) {
-		    console.log("POST /login success");			    //TEST
         $window.sessionStorage.token = data.token;  //save JWT to sessionStorage.
         AuthenticationService.isLogged = true;		  //Logged In **
-		    console.log("AuthenticationService.isLogged= "+ AuthenticationService.isLogged); //TEST
 	
 		    var encodedProfile = data.token.split('.')[1];
         var profile = JSON.parse(url_base64_decode(encodedProfile));
 		
-    		//console.log("profile = " + JSON.stringify(profile));			    //TEST
-    		//console.log("user_id = " + JSON.stringify(profile.user_id));  //TEST
+    		console.log("profile = " + JSON.stringify(profile));			    //TEST
+    		
+        //console.log("user_id = " + JSON.stringify(profile.user_id));  //TEST
         //console.log("Email = " + JSON.stringify(profile.email));		  //TEST
         //console.log("Username = " + JSON.stringify(profile.username));//TEST
 
-
-        //Flash Messages
+    		//Flash Messages
         $scope.info = function () {
           flash.info = '';
         };
@@ -153,13 +156,14 @@ angular.module('bookmarkApp.userControllers', [])
           flash.error = '';
         };
         $scope.all();
+        
+        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);
 
-        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);		
-        $location.url('/bookmarks');
+        $location.url('/');		
     })
       
-      //error
-      .error(function (data, status, headers, config) {
+    //error
+    .error(function (data, status, headers, config) {
     		
   	 	  //Erase JWT token if the user fails to log in
         delete $window.sessionStorage.token;        
@@ -180,67 +184,35 @@ angular.module('bookmarkApp.userControllers', [])
           flash.error = 'Invalid username or password!';
         };
         $scope.all();
-
-
+        
         $scope.welcome = 'Invalid User';
-      });
+    });
   }  
 })
 
 
- /**********************************************************************
-  * Admin controller - ROUTE NOT USED
-  **********************************************************************/
-  /*
-  .controller('AdminCtrl', function($scope, $http, $location, AuthenticationService, $window, $rootScope) {
-
-    $http.get('/admin')
-    
-    //success
-    .success(function (data, status, headers, config) {
-      console.log("Entered Private /Admin area success: data = " + JSON.stringify(data));
-
-        var encodedProfile =$window.sessionStorage.token.split('.')[1];
-        var profile = JSON.parse(url_base64_decode(encodedProfile));
-    
-        console.log("***profile = " + JSON.stringify(profile));            //TEST
-        $scope.error = '';
-        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);   
-    })
-    
-    //error
-    .error(function (data, status, headers, config) {
-      console.log("Authentication Failed: data = " + data );
-      $location.url('/login');
-      //Erase JWT token
-      delete $window.sessionStorage.token;
-      AuthenticationService.isLogged = false;    // Logged Out
-    });
-})
-*/
 
 /**********************************************************************
  * Logout controller
  **********************************************************************/
 .controller('LogoutCtrl', function ($scope, $http, $window, $location, AuthenticationService, $rootScope, flash) {
 
-      //for Flash messages
+    //for Flash messages
     $scope.all = function () {
-        $scope.info();
-        $scope.warn();
-        $scope.success();
-        $scope.error();
+      $scope.info();
+      $scope.warn();
+      $scope.success();
+      $scope.error();
     };
 
-		$http.post('/logout') 
 
+		$http.post('/logout') 
 		//success
 		.success(function (data, status, headers, config) {
-			AuthenticationService.isLogged = false;		// Logged In **
-			console.log("AuthenticationService.isLogged= "+ AuthenticationService.isLogged );
-			//Erase JWT token if the user fails to log in
-			delete $window.sessionStorage.token; 
-			//console.log("/logout SUCCESS");
+  		AuthenticationService.isLogged = false;		// Logged In **
+  		//console.log("AuthenticationService.isLogged= "+ AuthenticationService.isLogged ); TEST
+  		//Erase JWT token if the user fails to log in
+  		delete $window.sessionStorage.token; 
 
       //Flash Messages
       $scope.info = function () {
@@ -257,12 +229,14 @@ angular.module('bookmarkApp.userControllers', [])
       };
       $scope.all();
 
+  		
       $location.url('/');
 		})
     
 		//error
 		.error(function (data, status, headers, config) {
-			//Flash Messages
+			
+      //Flash Messages
       $scope.info = function () {
         flash.info = '';
       };
@@ -276,7 +250,7 @@ angular.module('bookmarkApp.userControllers', [])
         flash.error = 'Problem logging out';
       };
       $scope.all();
-			//alert(data);
+
 		});
 });
 

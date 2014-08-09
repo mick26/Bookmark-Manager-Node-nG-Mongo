@@ -27,6 +27,11 @@ http://lifehacker.com/5540019/five-best-bookmark-management-tools
     <!-- CSS -->
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
     <link href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple|3d-float" type="text/css" />
+	<link href='http://fonts.googleapis.com/css?family=Rancho' rel='stylesheet' type='text/css'>
+	
+	
     <link href="css/style.css" rel="stylesheet">
     <link rel='stylesheet' href='css/alert-styles.css' />
   </head>
@@ -59,7 +64,7 @@ http://lifehacker.com/5540019/five-best-bookmark-management-tools
                 </ul>
                 <ul class="nav navbar-nav navbar-right">        
                     <li ng-if="auth.isLogged" ng-model="welcome"><a href="#/logout">{{welcome}} Logout</a></li>
-                    <li ng-if="!auth.isLogged"><a href="#/login">Register or Login</a></li>
+                    <li ng-if="!auth.isLogged"><a href="#/login">Login</a></li>
                 </ul>             
             </div>
 
@@ -111,11 +116,11 @@ http://lifehacker.com/5540019/five-best-bookmark-management-tools
 
 
     <!-- JS -->
-    <!-- <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script> -->
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
    <!-- // <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.js"></script> -->
-    <!-- // <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script> -->
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script> 
     <!-- Angular-flash -->
     <script type="text/javascript" src="bower_components/angular-flash/dist/angular-flash.js"></script>

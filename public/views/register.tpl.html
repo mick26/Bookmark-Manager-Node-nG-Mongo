@@ -1,49 +1,54 @@
-
-<div class="col-sm-6 col-sm-offset-3 push-down1">
-
-  <h1><span class="fa fa-sign-in"></span>Register</h1>
-
-  <!-- Registeration Form -->
-  <form class="fmRegister" name="fmRegister" novalidate method="post" ng-submit="register()">
-
-    <div class="form-group">
-      <label>Username</label>
-      <input type="text" class="form-control" name="username" ng-model="user.username" ng-required="true">
-    </div>
-
-
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" class="form-control" name="password" ng-model="user.password" ng-required="true">
-    </div>
-    
-    <div class="form-group">
-      <label>Confirm Password</label>
-      <input type="password" class="form-control" name="password1" ng-model="user.passwordConfirmation" ng-required="true">
-    </div>
-
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" class="form-control" name="email" ng-model="user.email" ng-required="true">
-    </div> 
-	 
-    <div class="form-group">
-      <div class="col-sm-offset-4 col-sm-10">
-
-          <!-- Form will be invalid unless the input box has content only then will the Button become active-->
-          <button type="submit" class="btn btn-primary btn-lg" ng-disabled="fmRegister.$invalid">Register</button>
-
-      </div>
-    </div>
-
-  </form>
   
-  <div>{{error}}</div>
- 
-  <hr>
-  <p>Already have an account? <a href="#/login">Login</a></p>
-  <p>Or go <a href="/">home</a>.</p>
- 
+<div class="col-sm-6 col-sm-offset-3">
+
+  <!-- Show only if not logged on -->
+  <div class ="notLogged" ng-show="!auth.isLogged">
+
+    <div class="front-welcome-text">
+            <h1 class="text-center">Welcome to Bookmark-Manager</h1>
+            <p>Store your Web Bookmarks where they can be searched and retrieved with ease &#8212; Saved to a secure Mongo database. Where descriptive tag(s) can be added to each bookmark to make them easily searched for. Why not register and give it a try...</p>
+    </div>
+
+    <hr>
+
+    <div class="well col-md-offset-4 col-md-4">
+
+      <!-- Registeration Form -->
+      <form class="fmRegister" name="fmRegister" novalidate method="post" ng-submit="register()">
+
+        <div class="form-group">
+          <!-- <label>Username</label> -->
+          <input type="text" class="form-control input-lg" name="username" placeholder="Username" ng-model="user.username" ng-required="true">
+          <input type="password" class="form-control input-lg" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
+          <input type="password" class="form-control input-lg" name="password1" placeholder="Confirm Password" ng-model="user.passwordConfirmation" ng-required="true">
+          <input type="email" class="form-control input-lg" name="email" placeholder="Email" ng-model="user.email" ng-required="true">
+        </div>
+
+    	 
+        <div class="form-group">
+          <!-- <div class="col-sm-offset-4 col-sm-10"> -->
+          <div class="text-center">
+
+              <!-- Form will be invalid unless the input box has content only then will the Button become active-->
+              <button type="submit" class="btn btn-primary btn-lg" ng-disabled="fmRegister.$invalid">Register</button>
+
+          </div>
+        </div>
+
+      </form>
+      
+  
+    </div>
+  </div>
+
+  <!-- Show only if logged on -->
+  <div class ="logged" ng-show="auth.isLogged">
+    <div class="front-welcome-text">
+          <h1 class="text-center">Welcome to Bookmark-Manager</h1>
+          <p>Store your Web Bookmarks where they can be searched and retrieved with ease &#8212; Saved to a secure Mongo database. Where descriptive tag(s) can be added to each bookmark to make them easily searched for. You are logged on so go ahead and use the App...</p>
+    </div>
+  </div>
+
 </div>
 
 

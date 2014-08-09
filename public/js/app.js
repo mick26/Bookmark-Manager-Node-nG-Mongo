@@ -7,7 +7,6 @@ Module - main module
 angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkApp.Directives', 'colorpicker.module', 
   'bookmarkApp.userControllers', 'bookmarkApp.userServices', 'angular-flash.flash-alert-directive', 'angular-flash.service'])
 
-//.config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvider) {
 
 .config( function($routeProvider, $locationProvider, $httpProvider) {
 
@@ -25,8 +24,8 @@ angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkAp
   $routeProvider
 
     .when('/', {
-      templateUrl: 'views/home.tpl.html',
-      controller  : 'HomeCtrl',
+      templateUrl: 'views/register.tpl.html',
+      controller  : 'RegisterCtrl',
       access: { requiredLogin: false }
     })
 
@@ -49,23 +48,18 @@ angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkAp
     })
 
 
-    .when('/register', {
-      templateUrl: 'views/register.tpl.html',
-      controller: 'RegisterCtrl',
-      access: { requiredLogin: false }
-    })
-
     .when('/logout', {
-      templateUrl: 'views/home.tpl.html',
+      templateUrl: 'views/login.tpl.html',
       controller: 'LogoutCtrl',
       access: { requiredLogin: true }
     })
 
     .otherwise( {
-      redirectTo: '/'
+      redirectTo: '/',
+      access: { requiredLogin: false }
     })
-
 })
+
 
 .run( function($rootScope, $location, $window, AuthenticationService) {
   $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
