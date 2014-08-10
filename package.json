@@ -1,20 +1,25 @@
 {
-  "name": "Info-Repository",
-  "description": "Store-Info",
+  "name": "Bookmark-Manager",
   "version": "0.0.1",
+  "description": "Store and Retrieve URLs",
   "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-    "express": "~4.7.2",
-    "json": "~8.0.0",
-    "urlencode": "~0.2.0",
-    "morgan": "~1.1.1",
+    "bcryptjs": "~0.7.12",
+    "body-parser": "^1.6.2",
+    "colors": "~0.6.2",
     "cookie-parser": "~1.1.0",
+    "express": "~4.7.2",
+    "express-jwt": "~0.2.1",
+    "json": "~8.0.0",
+    "jsonwebtoken": "~0.4.0",
     "method-override": "~1.0.2",
     "mongoose": "~3.8.12",
-    "bcryptjs": "~0.7.12",
-    "jsonwebtoken": "~0.4.0",
-    "express-jwt": "~0.2.1",
-    "colors": "~0.6.2",
-    "lodash": "~2.4.1"
+    "urlencode": "~0.2.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.2.2"
   }
 }
