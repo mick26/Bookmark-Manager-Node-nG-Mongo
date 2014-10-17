@@ -8,7 +8,7 @@ angular.module('bookmarkApp.Controllers', [])
 /*================================================================
 Controller
 =================================================================*/
-.controller('BookmarkCtrl', function BookmarkCtrl($scope, $http, $location, $window, $rootScope) {
+.controller('BookmarkCtrl', function($scope, $http, $location, $window, $rootScope) {
 
 		$scope.bookmarks = {};
 		$scope.tags = {};
