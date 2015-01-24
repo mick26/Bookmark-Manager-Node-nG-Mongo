@@ -12,7 +12,7 @@ angular.module('bookmarkApp.userControllers', [])
   /**********************************************************************
    Register controller
    **********************************************************************/
-  .controller('RegisterCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash) {
+  .controller('RegisterCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash, base64) {
 
     //for angular-flash messages
     $scope.all = function () {
@@ -102,7 +102,10 @@ angular.module('bookmarkApp.userControllers', [])
    
     if($window.sessionStorage.token) {
         var encodedProfile =$window.sessionStorage.token.split('.')[1];
-        var profile = JSON.parse(url_base64_decode(encodedProfile));
+//        var profile = JSON.parse(url_base64_decode(encodedProfile));
+         var profile = JSON.parse(base64.decode(encodedProfile));
+
+
         //console.log("***profile = " + JSON.stringify(profile));            //TEST
         $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);  
     }
@@ -114,7 +117,7 @@ angular.module('bookmarkApp.userControllers', [])
 /**********************************************************************
  * Login controller
  **********************************************************************/
-.controller('LoginCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash) {
+.controller('LoginCtrl', function ($scope, $http, $location, $window, AuthenticationService, $rootScope, flash, base64) {
 
   //for Flash messages
   $scope.all = function () {
@@ -134,9 +137,10 @@ angular.module('bookmarkApp.userControllers', [])
         AuthenticationService.isLogged = true;		  //Logged In **
 	
 		    var encodedProfile = data.token.split('.')[1];
-        var profile = JSON.parse(url_base64_decode(encodedProfile));
+//        var profile = JSON.parse(url_base64_decode(encodedProfile));
+        var profile = JSON.parse(base64.decode(encodedProfile));
 		
-    		console.log("profile = " + JSON.stringify(profile));			    //TEST
+    		//console.log("profile = " + JSON.stringify(profile));			    //TEST
     		
         //console.log("user_id = " + JSON.stringify(profile.user_id));  //TEST
         //console.log("Email = " + JSON.stringify(profile.email));		  //TEST

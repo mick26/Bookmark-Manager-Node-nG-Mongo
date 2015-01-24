@@ -1,4 +1,4 @@
-angular.module('bookmarkApp.userServices', [])
+angular.module('bookmarkApp.authServices', [])
 
 
 .factory('AuthenticationService', function($rootScope, $window) {

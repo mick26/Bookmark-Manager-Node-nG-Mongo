@@ -3,108 +3,129 @@
 /*================================================================
 Module - Controllers module
 =================================================================*/
-angular.module('bookmarkApp.Controllers', [])
+angular.module('bookmarkApp.controllers', [])
 
 /*================================================================
 Controller
 =================================================================*/
-.controller('BookmarkCtrl', function($scope, $http, $location, $window, $rootScope) {
+.controller('BookmarkCtrl', function($scope, $http, $location, $window, $rootScope, 
+	bookmarkService, AuthenticationService, $log) {
 
-		$scope.bookmarks = {};
-		$scope.tags = {};
+	$scope.bookmarks = {};
+	$scope.tags = {};
 
-		/* ========================================================== 
-		GET bookmarks
-		============================================================ */	
-		$http.get('/bookmarks')
+	/* ========================================================== 
+	GET bookmarks
+	============================================================ */	
 
-		//success - callback fn
-		.success(function(data, status, headers, config) {
-			$scope.bookmarks = data;
-
-	        var encodedProfile =$window.sessionStorage.token.split('.')[1];
-	        var profile = JSON.parse(url_base64_decode(encodedProfile));
-	        //console.log("***profile = " + JSON.stringify(profile));            //TEST
-	        $scope.error = '';
-	        $rootScope.welcome = 'Welcome ' + JSON.stringify(profile.username);   
-		})
-
-		//error - callback fn
-		.error(function(data, status, headers, config) {
-			console.log('Error getting bookmarks: ' + data);
-			
-			$location.url('/login');
-			//Erase JWT token
-			delete $window.sessionStorage.token;
-			AuthenticationService.isLogged = false;    // Logged Out
-		});
+    /**
+     * ERROR REPORTING
+     *
+     * called by catch() if error (promise rejections or exceptions) occur
+     */
+    var reportProblems = function(fault)
+    {
+        $log.error( "OOH No!!: " + String(fault));
+        $location.url('/login');
+      	//Erase JWT token
+      	delete $window.sessionStorage.token;
+      	AuthenticationService.isLogged = false;    // Logged Out
+    };
 
 
-
-		/* ========================================================== 
-		GET tags
-		============================================================ */	
-		$http.get('/tags')
-
-		//success - callback
-		.success(function(data, status, headers, config) {
-			$scope.tags = data;
-
-			//console.info("in get success. data =" + JSON.stringify(data) ); 	//TEST
-
-			//Build an array containing the available tag names
-			var tagNames = [];
-			$scope.tags.forEach(function(tag) {
-				tagNames.push(tag.name);
-			});
-			//console.info("tagNames= " + tagNames);		//TEST
-		})
-
-		//error - callback fn
-		.error(function(data, status, headers, config) {
-			console.log('Error getting Tags: ' + data);
-		});
+    var reportProblemsDelTagFromBk = function(fault)
+    {
+        $log.error( "OOH No!!: " + String(fault));
+    };
 
 
-		/* ========================================================== 
-		Add bookmark - bookmark.tags, bookmark.link
-		============================================================ */			
-		$scope.addBookmark = function(bookmark) {
-			//console.info("bookmark>>= "+ JSON.stringify(bookmark) ); //TEST
-			$http.post('/bookmarks', $scope.bookmark)
 
-			//success - callback
-			.success(function(data, status, headers, config) {
-				$scope.bookmarks = data;
-				console.info("In POST Success bookmark added-data= " + JSON.stringify(data));
-			})
 
-			//error - callback
-			.error(function(data, status, headers, config) {
-				console.info("Error Posting Bookmark" + data);
-			})
-		};
+
+    //Level 1
+    bookmarkService
+		//Request #1
+	    .getBookmarks()                                    
+	    //Response Handler #1
+	    .then(function(bookmarks) {
+	        $scope.bookmarks = bookmarks; 
+	        
+	        //Level 2
+	        return bookmarkService
+				//Request #2
+	        	.getUserFromToken()  
+
+	        		// Response Handler #2
+	                .then(function(profile)
+	                {
+	                    $scope.error = JSON.stringify(profile.error);
+	        			$rootScope.welcome = JSON.stringify(profile.message);   
+	                });
+	    })        
+	    .catch(reportProblems); //same as: promise.then(null, errorCallback)
 		
+
+
+
+	/* ========================================================== 
+	GET tags
+	============================================================ */	
+    //Level 1
+    bookmarkService
+    	//Request #1
+        .getTags()                                    
+        //Response Handler #1
+        .then(function(tags) {
+            $scope.tags = tags; 
+            
+            //Level 2
+            return bookmarkService
+    			//Request #2
+            	.getUserFromToken()  
+            		// Response Handler #2
+                    .then(function(profile)
+                    {
+                        $scope.error = JSON.stringify(profile.error);
+	        			$rootScope.welcome = JSON.stringify(profile.message);   
+                    });
+        })        
+        .catch(reportProblems); //same as: promise.then(null, errorCallback)
+
+
+
+	/* ========================================================== 
+	Add bookmark - bookmark.tags, bookmark.link
+	============================================================ */			
+	$scope.addBookmark = function(bookmark) {
+
+		//Level 1
+	    bookmarkService
+	    	//Request #1
+	        .addBookmark(bookmark)                                    
+	        //Response Handler #1
+	        .then(function(bookmarks) {
+	            $scope.bookmarks = bookmarks; 
+	        })        
+	        .catch(reportProblems); //same as: promise.then(null, errorCallback)
+	};
+
+
+
+
 		/* ========================================================== 
 		DELETE bookmark
 		============================================================ */			
 		$scope.deleteBookmark = function(bookmark) {
 
-			//console.log("bookmark._id: " + bookmark._id);	//TEST
-
-			$http.delete('/bookmarks/' + bookmark._id)
-
-				//success
-				.success(function(data, status, headers, config) {
-					$scope.bookmarks = data;
-					console.info("Status: " + status);
-					console.info("Config: " + JSON.stringify(config));
-				})
-
-				//error
-				.error(function(data, status, headers, config) {
-					console.log('Error deleting: ' + data);
-				});
+			//Level 1
+		    bookmarkService
+		    	//Request #1
+		        .deleteBookmark(bookmark)                                    
+		        //Response Handler #1
+		        .then(function(bookmarks) {
+		            $scope.bookmarks = bookmarks; 
+		        })        
+		        .catch(reportProblems); //same as: promise.then(null, errorCallback)
 		};
 
 
@@ -112,61 +133,73 @@ Controller
 		ADD tag - tag.name,	tag.color
 		============================================================ */		
 		$scope.addTag = function(tag) {
-			$http.post('/tags', $scope.tag)
-
-			//success - callback
-			.success(function(data, status, headers, config) {
-				$scope.tags = data;
-				console.info("Tag added data: " + data);
-			})
-
-			//error - callback
-			.error(function(data, status, headers, config) {
-				console.info("Error Posting Tag" + data);
-			})
+			//Level 1
+		    bookmarkService
+		    	//Request #1
+		        .addTag(tag)                                    
+		        //Response Handler #1
+		        .then(function(tags) {
+		            $scope.tags = tags; 
+		        })        
+		        .catch(reportProblems); //same as: promise.then(null, errorCallback)		};
 		};
-
 
 		/* ========================================================== 
 		DELETE tag
 		============================================================ */			
 		$scope.deleteTag = function(tag) {
-
-			$http.delete('/tags/' + tag._id )
-
-			//success - callback
-			.success(function(data, status, headers, config) {
-				$scope.tags = data;
-				console.info("Tag Deleted - data: " + data);
-			})
-
-			//error - callback
-			.error(function(data, status, headers, config) {
-				console.info("Error Deleting Tag" + data);
-			});
-
+			//Level 1
+		    bookmarkService
+		    	//Request #1
+		        .deleteTag(tag)                                    
+		        //Response Handler #1
+		        .then(function(tags) {
+		            $scope.tags = tags; 
+		        })        
+		        .catch(reportProblems); //same as: promise.then(null, errorCallback)
 		};
 
 
-
+		/* ========================================================== 
+		DELETE tag from Bookmarks
+		============================================================ */			
 		$scope.deleteTagFromBookmark = function(bookmarkId, tag) {
-
-			//console.log("bookmarkId= "+ bookmarkId );				//TEST
-			//console.log("tag= "+ JSON.stringify(tag) );			//TEST
-
-			$http.put('/tagFromBookmark/' + bookmarkId, tag)
-
-				//success - callback
-				.success(function(data, status, headers, config) {
-					$scope.bookmarks = data;
-					console.info("Successful PUT - data: " + data);
-				})
-
-				//error - callback
-				.error(function(data, status, headers, config) {
-					console.info("Error with PUT" + data);
-				});
+			//console.log("bookmarkId= "+bookmarkId+ " tag= "+ JSON.stringify(tag)); //TEST
+			//Level 1
+		    bookmarkService
+		    	//Request #1
+		        .deleteTagFromBookmark(bookmarkId, tag)                                    
+		        //Response Handler #1
+		        .then(function(bookmarks) {
+		            $scope.bookmarks = bookmarks; 
+		        })        
+		        .catch(reportProblemsDelTagFromBk); //same as: promise.then(null, errorCallback)
 		};
+
+
+
+
+
+
+
+		// $scope.deleteTagFromBookmark = function(bookmarkId, tag) {
+
+		// 	//console.log("bookmarkId= "+ bookmarkId );				//TEST
+		// 	//console.log("tag= "+ JSON.stringify(tag) );			//TEST
+
+		// 	$http.put('/tagFromBookmark/' + bookmarkId, tag)
+
+		// 		//success - callback
+		// 		.success(function(data, status, headers, config) {
+		// 			$scope.bookmarks = data;
+		// 			console.info("Successful PUT - data: " + data);
+		// 		})
+
+		// 		//error - callback
+		// 		.error(function(data, status, headers, config) {
+		// 			console.info("Error with PUT" + data);
+		// 		});
+		// };
 
 		/* ========================================================== 
 		Clear Bookmark Form

@@ -4,11 +4,14 @@
 Module - main module
 =================================================================*/
 
-angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkApp.Directives', 'colorpicker.module', 
-  'bookmarkApp.userControllers', 'bookmarkApp.userServices', 'angular-flash.flash-alert-directive', 'angular-flash.service'])
+angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.controllers', 'bookmarkApp.Directives', 'colorpicker.module', 
+  'bookmarkApp.userControllers', 'bookmarkApp.authServices', 'bookmarkApp.ajaxServices', 
+  'angular-flash.flash-alert-directive', 'angular-flash.service', 'bookmarkApp.base64Service'])
+
+.config(window.$QDecorator)
 
 
-.config( function($routeProvider, $locationProvider, $httpProvider) {
+.config(function($routeProvider, $locationProvider, $httpProvider) {
 
   /*==================================================
   Add Interceptor in the $httpProvider
@@ -72,31 +75,4 @@ angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.Controllers', 'bookmarkAp
     }
   });
   
-
-})
-
-
-//Ref. polifyll https://github.com/davidchambers/Base64.js
-//this is used to parse the profile contained in the JWT
-function url_base64_decode(str) 
-{
-  var output = str.replace('-', '+').replace('_', '/');
-  switch (output.length % 4) {
-    case 0:
-      break;
-    case 2:
-      output += '==';
-      break;
-    case 3:
-      output += '=';
-      break;
-    default:
-      throw 'Illegal base64url string!';
-  }
-  return window.atob(output); 
-};
-
-
-
-
-
+});
