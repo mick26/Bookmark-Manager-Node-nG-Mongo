@@ -12,7 +12,6 @@ angular.module('bookmarkApp.ajaxServices', [])
 
 .service('bookmarkService', function($http, $q, $window, base64) {
 
-    // Flight API (each returns a promise)
     return {
 
       getBookmarks : function() {
