@@ -4,8 +4,8 @@
 Module - main module
 =================================================================*/
 
-angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.controllers', 'bookmarkApp.Directives', 'colorpicker.module', 
-  'bookmarkApp.userControllers', 'bookmarkApp.authServices', 'bookmarkApp.ajaxServices', 
+angular.module('bookmarkApp', ['ngRoute', 'bookmarkApp.bookmarkControllers', 'bookmarkApp.Directives', 'colorpicker.module', 
+  'bookmarkApp.userControllers', 'bookmarkApp.authServices', 'bookmarkApp.ajaxServices', 'bookmarkApp.userServices', 
   'angular-flash.flash-alert-directive', 'angular-flash.service', 'bookmarkApp.base64Service'])
 
 .config(window.$QDecorator)

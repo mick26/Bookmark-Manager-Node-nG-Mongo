@@ -61,20 +61,20 @@ angular.module('bookmarkApp.ajaxServices', [])
       },
 
 
-      getUserFromToken : function() {      
+      // getUserFromToken : function() {      
         
-        var deferred = $q.defer();
+      //   var deferred = $q.defer();
         
-        //return $q.reject ("Promise Rejected - Unable to Get profile from JWT!!!");//TEST                
-        var encodedProfile = $window.sessionStorage.token.split('.')[1]; //From JWT
-        var decodedProfile = JSON.parse(base64.decode(encodedProfile));
+      //   //return $q.reject ("Promise Rejected - Unable to Get profile from JWT!!!");//TEST                
+      //   var encodedProfile = $window.sessionStorage.token.split('.')[1]; //From JWT
+      //   var decodedProfile = JSON.parse(base64.decode(encodedProfile));
         
-        return $q.resolve ({
-          user: decodedProfile.username //Extract username from JWT profile 
-        });
+      //   return $q.resolve ({
+      //     user: decodedProfile.username //Extract username from JWT profile 
+      //   });
 
-        return deferred.promise; //returns the promise
-      },
+      //   return deferred.promise; //returns the promise
+      // },
 
 
       getTags : function() {

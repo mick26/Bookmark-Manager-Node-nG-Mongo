@@ -43,47 +43,51 @@ module.exports = {
 		//Angular validation also ensures required fields are filled
 		//Check to ensure passwordConfirmation matches password
 		if (username == '' || password == '' || password != passwordConfirmation) {
-			res.status(400).send("Bad Request-password does not match passwordConfirmation");
-			//return res.send(400);
+			res.status(400).send("Bad Request-password does not match passwordConfirmation").end();
 		}
 
 
-		//check if username exists already
-		UserModel.findOne({username: req.body.username}, function (err, user) {
+		else {
+			//check if username exists already
+			UserModel.findOne({username: req.body.username}, function (err, user) {
+				
+				if (err) {
+					console.log(err);
+					res.status(401).send("Unauthorised-error finding username in DB").end();
+				}
+
+				//user exists already
+				else if(user) {
+					res.status(409).send("Conflict: username already exists").end();
+					//res.send(409, {status:409, message: 'Conflict - username already exists', type:'user-issue'});
+				}
+
+				//user does not exist already
+				else if (user == undefined) {
+				
+					var newUser = new UserModel( {
+						username : req.body.username,
+						password : req.body.password,
+						is_admin : true,
+						email : req.body.email
+					})
+
+					newUser.save(function(err) {
+						if (err) {
+							console.log(err);
+							res.status(500).send("Internal Server Error: problem saving user to DB").end();
+						}
+						else {
+							return res.status(200).send("New user saved to DB ok").end();
+						}
+					});	
+				}
+
+			})
 			
-			if (err) {
-				console.log(err);
-				res.status(401).send("Unauthorised-error finding username in DB");
-			}
+		};
 
-			//user exists already
-			else if(user) {
-				res.status(409).send("Conflict: username already exists");
-				//res.send(409, {status:409, message: 'Conflict - username already exists', type:'user-issue'});
-			}
 
-			//user does not exist already
-			else if (user == undefined) {
-			
-				var newUser = new UserModel( {
-					username : req.body.username,
-					password : req.body.password,
-					is_admin : true,
-					email : req.body.email
-				})
-
-				newUser.save(function(err) {
-					if (err) {
-						console.log(err);
-						res.status(500).send("Internal Server Error: problem saving user to DB");
-					}
-					else {
-						return res.status(200).send("New user saved to DB ok");
-					}
-				});	
-			}
-
-		})
 
 	},
 

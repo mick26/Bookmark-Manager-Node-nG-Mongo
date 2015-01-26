@@ -97,7 +97,7 @@ module.exports = {
 			if (err)
 				res.send(err);
 			else {
-				console.log("Useer Data= " + user_data);
+				//console.log("User Data= " + user_data);
 				return res.json(user_data.bookmarks);				//In JSON
 			}
 		});
@@ -218,7 +218,7 @@ module.exports = {
 			if (err)
 				res.send(err);
 			else {
-				console.log("Useer Data= " + user_data);
+				//console.log("User Data= " + user_data);
 				return res.json(user_data.tags);				//In JSON
 			}
 		});
